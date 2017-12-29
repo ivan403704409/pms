@@ -10,7 +10,118 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+.f-flex-box{
+    display: flex;
+    
+    &.flex-inline{
+        display: inline-flex;
+    }
+
+    //　主轴方向
+    &.dir-row{
+        flex-direction: row;
+    }
+    &.dir-row-reverse{
+        flex-direction: row-reverse;
+    }
+    &.dir-col{
+        flex-direction: column;
+    }
+    &.dir-col-reverse{
+        flex-direction: column-reverse;
+    }
+    
+    // 包围
+    &.wrap{
+        flex-wrap: wrap;
+        & > .flex-item{
+            display: inline-block;
+        }
+    }
+    &.wrap-reverse{
+        flex-wrap: wrap-reverse;
+        & > .flex-item{
+            display: inline-block;
+        }
+    }
+
+    //　item在主轴方向的对齐方式
+    &.justify-start{
+        justify-content: flex-start;
+    }
+    &.justify-end{
+        justify-content: flex-end;
+    }
+    &.justify-center {
+        justify-content: center;
+    }
+    &.justify-between{
+        justify-content: space-between;
+    }
+    &.justify-around{
+        justify-content: space-around;
+    }
+
+    
+    // 每个item在交叉轴方向的对齐方式
+    &.align-start{
+        align-items: flex-start;
+    }
+    &.align-end{
+        align-items: flex-end;
+    }
+    &.align-center{
+        align-items: center;
+    }
+    &.align-baseline{
+        align-items: baseline;
+    }
+    
+    //　每一行在交叉轴方向的对齐方式
+    &.align-ctn-start{
+        align-content: flex-start;
+    }
+    &.align-ctn-end{
+        align-content: flex-end;
+    }
+    &.align-ctn-center {
+        align-content: center;
+    }
+    &.align-ctn-between{
+        align-content: space-between;
+    }
+    &.align-ctn-around{
+        align-content: space-around;
+    }
+    
+    // 只针对第一级， 避免影响flexbox嵌套情况
+    & > .flex-item{
+        //　item的对齐方式，　默认是auto继承flex-box的align-item
+        &.align-start{
+            align-self: flex-start;
+        }
+        &.align-end{
+            align-self: flex-end;
+        }
+        &.align-center{
+            align-self: center;
+        }
+        &.align-baseline{
+            align-self: baseline;
+        }
+        &.align-stretch{
+            align-self: stretch;
+        }
+    }
+    // 均分
+    &.auto-width > .flex-item{
+        min-width: 20px;
+        width: 0;
+        flex: 1 1 auto;
+    }
+
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

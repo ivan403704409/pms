@@ -5,7 +5,7 @@
   </vue-drr>
 </div> -->
 <!-- https://github.com/taye/interact.js -->
-  <div style="position: absolute;" class="m-item" v-resize="onResize">
+  <div style="position: absolute; background-color: #fff;" class="m-item" v-resize="onResize">
       <slot></slot>
   </div>
 </template>
@@ -14,22 +14,22 @@
 
 import resize from 'vue-resize-directive'
 
-import VueDRR from 'vue-drag-resize-rotate'
+// import VueDRR from 'vue-drag-resize-rotate'
 export default {
 
   directives: {
     resize
   },
-  components: {
-    'vue-drr': VueDRR
-  },
+  // components: {
+  //   'vue-drr': VueDRR
+  // },
 
   props: {
 
   },
   data () {
     return {
-      
+      resizeCount: 0,
     }
   },
   methods: {

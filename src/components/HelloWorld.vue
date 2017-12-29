@@ -1,20 +1,43 @@
 <template>
-  <div class="hello">
-      <button @click="addComponent">Add</button>
-      <phone>
-          <item v-for="item in cps">
-            <img src="../assets/logo.png">
-          </item>
-      </phone>
-  </div>
+<div>
+  
+      <grid col>
+
+          <grid class="flex-item" 　col>
+            <grid class="flex-item">
+              <grid class="flex-item"></grid>
+              <grid class="flex-item"></grid>
+            </grid>
+            <grid class="flex-item">
+              <grid class="flex-item"></grid>
+              <grid class="flex-item"></grid>
+              <grid class="flex-item"></grid>
+            </grid>
+          </grid>
+
+          <grid class="flex-item"></grid>
+          <grid class="flex-item"></grid>
+      </grid>
+<!--     <div class="hello">
+        <button @click="addComponent">Add</button>
+        <phone>
+            <item v-for="(item, index) in cps" :key="index">
+              <img src="../assets/logo.png">
+            </item>
+        </phone>
+    </div> -->
+</div>
+
 </template>
 
 <script>
 import Phone from './Phone.vue'
 import Item from './Item.vue'
+import Grid from './Grid.vue'
 export default {
   name: 'HelloWorld',
   components:{
+    Grid,
     Phone,
     Item,
   },
