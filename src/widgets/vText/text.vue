@@ -1,5 +1,5 @@
 <template>
-<div class="m-page">
+<div class="v-text">
     {{value}}
 </div>
 </template>
@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.m-page{
+.v-text{
     touch-action: none;
 }
 </style>

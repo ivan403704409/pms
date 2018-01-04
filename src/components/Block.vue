@@ -1,23 +1,25 @@
 <template>
-<div class="m-block">
+<div class="v-block">
     <slot></slot>
 </div>
 </template>
 
 
 <style scoped>
-.m-block{
+.v-block{
     outline: 1px solid #ddd;
     background-color: #fff;
     height: 100px;
     outline:1px solid #00d8ff;
     margin: 10px 0;
+    cursor: pointer;
 }
 </style>
 
 <script>
 
 export default {
+    name: 'block',
     components: {
 
     },

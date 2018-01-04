@@ -1,17 +1,18 @@
 <template>
-<div class="m-container">
+<div class="v-container">
     <slot></slot>
 </div>
 </template>
 
 
 <style scoped>
-.m-container{
+.v-container{
     outline: 1px solid #ddd;
     background-color: #fff;
     height: 100px;
     user-select: none;
     outline:1px dashed blue;
+    cursor: pointer;
 }
 </style>
 

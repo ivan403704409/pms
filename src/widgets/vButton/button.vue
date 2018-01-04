@@ -1,5 +1,5 @@
 <template>
-<div class="m-page" :style="styles">
+<div class="v-button" :style="styles">
     {{value}}
 </div>
 </template>
@@ -37,7 +37,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.m-page{
+.v-button{
     touch-action: none;
 }
 </style>
