@@ -1,7 +1,7 @@
 <template>
 <div>
   
-      <grid col>
+      <grid id="grid" col>
 
           <grid class="flex-item" 　col>
             <grid class="flex-item">
@@ -15,8 +15,8 @@
             </grid>
           </grid>
 
-          <grid class="flex-item"></grid>
-          <grid class="flex-item"></grid>
+          <grid class="flex-item">1</grid>
+          <grid class="flex-item">2</grid>
       </grid>
 <!--     <div class="hello">
         <button @click="addComponent">Add</button>

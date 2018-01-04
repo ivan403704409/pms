@@ -5,8 +5,14 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import Sortable from 'sortablejs'
+
 export default {
-  name: 'app'
+  name: 'app',
+  mounted(){
+
+  },
 }
 </script>
 
