@@ -1,5 +1,5 @@
 <template>
-<div class="v-button" :style="styles">
+<div class="v-button" :style="customStyle">
     {{value}}
 </div>
 </template>
@@ -22,6 +22,16 @@ export default {
     },
     data(){
         return {
+            customStyle: {
+                'font-size': '12px',
+                'text-align': 'center',
+                // 'height': '88px',
+                // 'line-height': '88px',
+                'border-radius': '8px',
+                'background': '#03A9F4',
+                'padding': '10px 12px',
+                'color': '#fff',
+            },
             config: [
                 '',
             ]
@@ -38,6 +48,11 @@ export default {
 
 <style scoped lang="scss">
 .v-button{
+    display: inline-block;
     touch-action: none;
+    cursor: pointer;
+    &:active{
+        opacity: .7;
+    }
 }
 </style>

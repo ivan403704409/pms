@@ -1,5 +1,5 @@
 <template>
-<div class="m-page">
+<div class="m-page" id="--id">
     <interator :config="item" v-for="item in pageData"></interator>
 </div>
 
@@ -14,6 +14,10 @@ var button = {
     type: 'vButton',
     data: {
         value: 'button',
+        styles: {
+            'font-size': '12px',
+            'text-align': 'center',
+        },
     }
 }
 var component = {
@@ -28,7 +32,20 @@ var container = {
     data: {
         col: 3,
     },
-    children: [component]
+    children: [
+        component,
+    ]
+}
+var container2 = {
+    type: 'container',
+    data: {
+        col: 1,
+    },
+    children: [
+        component,
+        container,
+        container,
+    ]
 }
 
 var block = {
@@ -56,10 +73,11 @@ export default {
             widgets,
             // blocks
             pageData: [
-                button,
-                container,
-                component,
-                block,
+                container2,
+                // button,
+                // container,
+                // component,
+                // block,
             ],
             components: [{
                 type: 'vText',
