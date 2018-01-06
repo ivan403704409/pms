@@ -29,22 +29,17 @@ var component = {
 
 var container = {
     type: 'container',
-    data: {
-        col: 3,
-    },
     children: [
-        component,
+        [component],
+        [],
+        []
     ]
 }
 var container2 = {
     type: 'container',
-    data: {
-        col: 1,
-    },
     children: [
-        component,
-        container,
-        container,
+        [component],
+        [container, container]
     ]
 }
 
@@ -74,7 +69,7 @@ export default {
             // blocks
             pageData: [
                 container2,
-                // button,
+                button,
                 // container,
                 // component,
                 // block,
