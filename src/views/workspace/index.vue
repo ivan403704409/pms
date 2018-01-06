@@ -35,11 +35,19 @@ var container = {
         []
     ]
 }
+var container3 = {
+    type: 'container',
+    children: [
+        [component],
+        [],
+    ]
+}
 var container2 = {
     type: 'container',
     children: [
         [component],
-        [container, container]
+        [component],
+        [container3, component, container]
     ]
 }
 
