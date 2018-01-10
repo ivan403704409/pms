@@ -1,11 +1,16 @@
 <template>
 <div class="m-page" id="--id">
-    <interator :config="item" v-for="item in pageData"></interator>
+    <draggable v-model="pageData">
+        <!-- <transition-group> -->
+            <interator :config="item" v-for="(item, index) in pageData" ></interator>
+        <!-- </transition-group> -->
+    </draggable>
 </div>
 
 </template>
 
 <script>
+import draggable from 'vuedraggable'
 import widgets from '@/widgets'
 import Phone from '@/components/Phone.vue'
 import interator from './interator.vue'
@@ -65,9 +70,11 @@ var block = {
     ]
 }
 
+// import interator from './interator.js'
 export default {
     name: 'workspace',
     components: {
+        draggable,
         Phone,
         interator,
     },

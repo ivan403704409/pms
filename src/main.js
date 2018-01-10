@@ -5,6 +5,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import drag from './directives/drag.js'
+
+var VueDragula = require('vue-dragula');
+
+Vue.use(VueDragula);
+
 Vue.config.productionTip = false
 
 Vue.use(drag)
