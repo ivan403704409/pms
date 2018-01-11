@@ -1,6 +1,6 @@
 <template>
 <div class="v-component-wrapper" :class="className" @mouseover.stop="mouseover"  @mouseout.stop="mouseout" v-drag>
-    <component class="f-flex-box auto-width flex-wrap align-strech flex-item v-component" :data-type="config.type" v-bind="config.data" :is="widgets[config.type]" >
+    <component class="v-component" :class="className2" :data-type="config.type" v-bind="config.data" :is="widgets[config.type]" >
         <slot></slot>
     </component>
     <div class="tips">{{config.type}}</div>
@@ -28,6 +28,12 @@ export default {
             if(this.isHover)res.push('hover');
             if(this.config.block==='inline-block')res.push('inline-block');
             return res
+        },
+        className2(){
+            if(this.config && this.config.children && this.config.children.length>1){
+                return ['f-flex-box', 'auto-width', 'flex-wrap', 'align-strech', 'flex-item', ]
+            }
+            return []
         },
     },
     mounted(){

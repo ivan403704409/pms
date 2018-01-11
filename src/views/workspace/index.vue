@@ -1,6 +1,8 @@
 <template>
-<div class="m-page" id="--id">
-    <interator :config="item" v-for="(item, index) in pageData" ></interator>
+<div class="m-page f-flex-box">
+    <phone>
+        <interator :config="item" v-for="(item, index) in pageData" ></interator>
+    </phone>
 </div>
 
 </template>
@@ -46,7 +48,7 @@ var container3 = {
 var container2 = {
     type: 'container',
     children: [
-        [component],
+        [component, component, component],
         [component],
         [container3, component, container]
     ]

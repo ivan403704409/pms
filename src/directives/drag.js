@@ -14,7 +14,7 @@ export default {
 	        	el.mousemove = function(ev){
 		            let { clientX: x, clientY: y } = ev
 		            let disX = x- el.last.x
-		            let disY = y -el.last.y
+		            let disY = y - el.last.y
 		            el.style.transform = `translate3d(${disX}px, ${disY}px,0)`
 		        }
 		        el.mouseup = function(ev){
@@ -24,7 +24,6 @@ export default {
 		            document.removeEventListener('mouseup', el.mouseup, false)
 		        }
 	        	el.addEventListener('mousedown', function (ev) {
-	        		console.log('mousedown')
 	        		el.last = {
 		                x: ev.clientX,
 		                y: ev.clientY,

@@ -5,7 +5,12 @@
         <!-- 没有列数 -->
         <template  v-if="config.children.length==1">
             <!-- 如果有子集，则继续递归 -->
-            <interator :config="config.children[0]" v-if="config.children[0].children.length"></interator>
+            <template v-for="(item, index) in config.children[0]" v-if="config.children[0].length">
+                <!-- 如果有子集，则继续递归 -->
+                <interator :config="item" v-if="item.children"></interator>
+                <!-- 否则直接渲染当前组件 -->
+                <unit :config="item" v-else></unit>
+            </template>
             <!-- 否则直接渲染当前组件 -->
             <unit :config="config.children[0].data" v-else></unit>
         </template>
@@ -19,8 +24,7 @@
                     <!-- 如果有子集，则继续递归 -->
                     <interator :config="item" v-if="item.children"></interator>
                     <!-- 否则直接渲染当前组件 -->
-                    <unit :config="item" v-else>
-                    </unit>
+                    <unit :config="item" v-else></unit>
                 </template>
             </div>
         </div>
