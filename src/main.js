@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import './assets/css/index.scss';
 import Vue from 'vue'
+import store from './store'
 import App from './App'
 import router from './router'
 import drag from './directives/drag.js'
@@ -15,8 +16,9 @@ Vue.config.productionTip = false
 Vue.use(drag)
 
 /* eslint-disable no-new */
-new Vue({
+window.$app = new Vue({
   el: '#app',
+  store,
   router,
   template: '<App/>',
   components: { App }

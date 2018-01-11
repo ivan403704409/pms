@@ -2,10 +2,9 @@ import Draggabilly from 'draggabilly';
 
 export default {
 	install(Vue, options) {
-		
-
 	    Vue.directive('drag', {
 	        bind: function (el, binding, vnode, oldVnode) {
+	        	let config = binding.value
 	        	el.last = {
 	        		x: 0,
 	        		y: 0
@@ -15,11 +14,28 @@ export default {
 		            let { clientX: x, clientY: y } = ev
 		            let disX = x- el.last.x
 		            let disY = y - el.last.y
+
+		            let tmp = el.getBoundingClientRect();
+					window.$app.$store.dispatch('drag/updatePoint', {
+						config,
+						isDragging: true,
+						point: {
+							l: tmp.left,
+							t: tmp.top,
+							w: tmp.width,
+							h: tmp.height
+						}
+					})
+
 		            el.style.transform = `translate3d(${disX}px, ${disY}px,0)`
 		        }
 		        el.mouseup = function(ev){
 		            el.style.transform = `none`
 	        		el.removeAttribute('data-draging')
+	        		window.$app.$store.dispatch('drag/updatePoint', {
+						isDragging: false,
+						point: null
+					})
 		            document.removeEventListener('mousemove', el.mousemove, false)
 		            document.removeEventListener('mouseup', el.mouseup, false)
 		        }
