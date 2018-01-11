@@ -33,7 +33,7 @@ var component = {
 var container = {
     type: 'container',
     children: [
-        [component],
+        [deepClone(component)],
         [],
         []
     ]
@@ -48,12 +48,40 @@ var container3 = {
 var container2 = {
     type: 'container',
     children: [
-        [component, component, component],
-        [component],
-        [container3, component, container]
+        [deepClone(component), deepClone(component), deepClone(component)],
+        [deepClone(component)],
+        [container3, deepClone(component), container]
     ]
 }
 
+function deepClone(data) {
+    return JSON.parse(JSON.stringify(data))
+}
+
+let pageData = [
+    container2,
+    button,
+]
+
+function fn(pageData) {
+    pageData.forEach((item,index) => {
+        item.id = index
+        addId(item)
+    })
+}
+function addId(data) {
+    if(!data.children)return
+    let pId = data.id
+    data.children.forEach(function (arr, index){
+        arr.forEach(function (component, index2) {
+            component.id = `${pId}_children_${index}_${index2}`
+            addId(component);
+        })
+    })    
+}
+
+fn(pageData)
+console.log(JSON.stringify(pageData))
 var block = {
     type: 'block',
     data: {
@@ -79,13 +107,14 @@ export default {
         return {
             widgets,
             // blocks
-            pageData: [
-                container2,
-                button,
-                // container,
-                // component,
-                // block,
-            ],
+            pageData,
+            // pageData: [
+            //     container2,
+            //     button,
+            //     // container,
+            //     // component,
+            //     // block,
+            // ],
             components: [{
                 type: 'vText',
                 data: {

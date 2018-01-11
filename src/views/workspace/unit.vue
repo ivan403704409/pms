@@ -1,5 +1,5 @@
 <template>
-<div class="v-component-wrapper" :class="className" @mouseover.stop="mouseover"  @mouseout.stop="mouseout" v-drag="config">
+<div class="v-component-wrapper" :data-id="config.id" :class="className" @mouseover.stop="mouseover"  @mouseout.stop="mouseout" v-drag="config">
     <component class="v-component" :class="className2" :data-type="config.type" v-bind="config.data" :is="widgets[config.type]" >
         <slot></slot>
     </component>
