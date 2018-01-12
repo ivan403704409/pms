@@ -35,7 +35,7 @@ export default {
   left: calc(50vw - 182.5px);
   width: 375px;
   height: 667px;
-  border-width: 30px 12px 50px;
+  border-width: 20px 12px 50px;
   border-style: solid;
   border-color: #353642;
   border-radius: 20px;
@@ -54,6 +54,8 @@ export default {
     height: 20000px;
     background-color: #fff;
     top: 0;
+    border-top: 30px solid #353642;
+    border-radius: 8px;
   }
   &::before{
       content: '';
@@ -61,7 +63,7 @@ export default {
       position: absolute;
       z-index: 1;
       left: 50%;
-      top: -20px;
+      top: -18px;
       margin-left: -25px;
       width: 50px;
       height: 12px;

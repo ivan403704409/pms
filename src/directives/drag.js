@@ -20,6 +20,8 @@ export default {
 						config,
 						isDragging: true,
 						point: {
+							x,
+							y,
 							l: tmp.left,
 							t: tmp.top,
 							w: tmp.width,
@@ -30,12 +32,9 @@ export default {
 		            el.style.transform = `translate3d(${disX}px, ${disY}px,0)`
 		        }
 		        el.mouseup = function(ev){
+	        		window.$app.$store.dispatch('drag/updateSort', true)
 		            el.style.transform = `none`
 	        		el.removeAttribute('data-draging')
-	        		window.$app.$store.dispatch('drag/updatePoint', {
-						isDragging: false,
-						point: null
-					})
 		            document.removeEventListener('mousemove', el.mousemove, false)
 		            document.removeEventListener('mouseup', el.mouseup, false)
 		        }

@@ -1,6 +1,6 @@
 <template>
-<div class="v-component-wrapper" :data-id="config.id" :class="className" @mouseover.stop="mouseover"  @mouseout.stop="mouseout" v-drag="config">
-    <component class="v-component" :class="className2" :data-type="config.type" v-bind="config.data" :is="widgets[config.type]" >
+<div class="v-component-wrapper" :data-id="config.id" :data-type="config.type" :class="className" @mouseover.stop="mouseover"  @mouseout.stop="mouseout" v-drag="config">
+    <component class="v-component" :class="className2" v-bind="config.data" :is="widgets[config.type]" >
         <slot></slot>
     </component>
     <div class="tips">{{config.type}}</div>
@@ -8,29 +8,47 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import widgets from '@/widgets'
+// // 获取两个元素相交区域面积
+// function getCutArea(p1, p2){
+//     let { l: l1, t: t1, w: w1, h: h1 } = p1
+//     let { l: l2, t: t2, w: w2, h: h2 } = p2
+
+//     if( l1+w1 < l2 
+//         || t1+h1 < t2 
+//         || l2+w2 < l1 
+//         || t2+h2 < t1
+//     ){
+//         return 0
+//     }
+//     let w = l1<l2 ? (l1+w1-l2) : (l2+w2-l1)
+//     let h = t1<t2 ? (t1+h1-t2) : (t2+h2-t1)
+//     let isTop = t1>(t2+h2/2) ? false : true
+//     return {
+//         area: w*h,
+//         isTop,
+//     }
+
+// }
 
 // 获取两个元素相交区域面积
-function getCutArea(p1, p2){
-    let { l: l1, t: t1, w: w1, h: h1 } = p1
-    let { l: l2, t: t2, w: w2, h: h2 } = p2
+function getCutArea(mouse, point){
+    let { x, y } = mouse
+    let { l, t, w, h } = point
 
-    if( l1+w1 < l2 
-        || t1+h1 < t2 
-        || l2+w2 < l1 
-        || t2+h2 < t1
-    ){
-        return 0
+    if(
+        x<l ||
+        y<t ||
+        x>l+w ||
+        y>t+h
+        ){
+        return false
     }
-    let w = l1<l2 ? (l1+w1-l2) : (l2+w2-l1)
-    let h = t1<t2 ? (t1+h1-t2) : (t2+h2-t1)
-    let isTop = t1>(t2+h2/2) ? false : true
+    let isTop = y>(t+h/2) ? false : true
     return {
-        area: w*h,
-        isTop,
+        isTop
     }
-
 }
 
 export default {
@@ -52,12 +70,18 @@ export default {
             point: 'point',
             dragConfig: state => state.config,
         }),
-        className(){
-            let res = []
-            if(this.isHover)res.push('hover')
-            if(this.config.block==='inline-block')res.push('inline-block')
+        isDropTarget(){
+            // 还没有dom　或　没开始拖
+            if(!this.isDragging || !this.$el)return false;
 
-            if(!this.isDragging || !this.$el)return res;
+            let selfId = this.config.id
+            let dragId = this.dragConfig.id
+            
+            //　如果自己是拖拽的元素的子元素，则不用检查
+            let reg = new RegExp('\^' + dragId)
+            if(reg.test(selfId))return false;
+
+            //　获取自己的位置信息
             let tmp = this.$el.getBoundingClientRect()
             let point2 = {
                 l: tmp.left,
@@ -65,11 +89,22 @@ export default {
                 w: tmp.width,
                 h: tmp.height,
             }
-            if( getCutArea(this.point, point2) ){
-                res.push('isDropTarget')
-                res.push('before')
-            }
+                
+            // 判断是否有碰撞
+            // let area = getCutArea(this.point, point2)
+            // if(!area)return false
+            return getCutArea(this.point, point2)
+        },
+        className(){
+            let res = []
+            if(this.isHover)res.push('hover')
+            if(this.config.block==='inline-block')res.push('inline-block')
 
+            if(this.isDropTarget){
+                res.push('isDropTarget')
+                let pos = this.isDropTarget.isTop ? 'before' : 'after'
+                res.push(pos)
+            }
 
             return res
         },
@@ -80,10 +115,20 @@ export default {
             return []
         },
     },
+    watch:{
+        isDropTarget(newVal){
+            if(newVal){
+                this.updateTargetId({id: this.config.id, isTop: newVal.isTop })
+            }else{
+                this.updateTargetId({id: this.config.id, remove: true})
+            }
+        }
+    },
     mounted(){
 
     },
     methods: {
+        ...mapActions('drag', ['updateTargetId']),
         mouseover(ev){
             this.isHover = true
         },
@@ -128,7 +173,17 @@ $color-tips: #33ada9;
         height: 4px;
         background-color: $color-tips;
     }
-    &[data-draging]::before{
+    &.isDropTarget.after::after{
+        content: "";
+        position: absolute;
+        z-index: 2;
+        left: 0;
+        bottom: -4px;
+        width: 100%;
+        height: 4px;
+        background-color: $color-tips;
+    }
+    &[data-draging]::before, &[data-draging]::after{
         display: none;
     }
 
