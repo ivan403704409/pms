@@ -128,13 +128,26 @@ function getParent(id, data) {
 function change(dragId, dropId, data, targetPos) {
     let { parent, index } = getParent(dragId, data)
     let { parent: parent2, index: index2 } = getParent(dropId, data)
-    // 位置是原来的位置
-    if(parent===parent2　&& index===index2-1){
-        console.log('原来的位置')
-        return
+
+    if(targetPos==='before'){
+        // 位置是原来的位置
+        if(parent===parent2 && index===index2-1){
+            console.log('原来的位置')
+            return
+        }
+        let dragTarget = parent.splice(index, 1)[0]
+        parent2.splice(index2, 0, dragTarget)
+    }else{
+       // 位置是原来的位置
+        if(parent===parent2 && index===index2+1){
+            console.log('原来的位置')
+            return
+        }
+        let dragTarget = parent.splice(index, 1)[0]
+        parent2.splice(index2+1, 0, dragTarget)
     }
-    let dragTarget = parent.splice(index, 1)[0]
-    parent2.splice(index2, 0, dragTarget)
+
+    
 }
 
 import { mapState, mapActions } from 'vuex'

@@ -69,6 +69,7 @@ export default {
             isDragging: 'isDragging',
             point: 'point',
             dragConfig: state => state.config,
+            drag: state => state,
         }),
         isDropTarget(){
             // 还没有dom　或　没开始拖
@@ -100,9 +101,19 @@ export default {
             if(this.isHover)res.push('hover')
             if(this.config.block==='inline-block')res.push('inline-block')
 
-            if(this.isDropTarget){
+            // if(this.isDropTarget){
+            //     res.push('isDropTarget')
+            //     let pos = this.isDropTarget.isTop ? 'before' : 'after'
+            //     res.push(pos)
+            // }
+            if(this.dragConfig){
+                console.log(this.drag.targetId, this.config.id)
+            }
+            if(this.isDropTarget && this.drag.targetId===this.config.id){
+            // if(this.isDropTarget){
                 res.push('isDropTarget')
-                let pos = this.isDropTarget.isTop ? 'before' : 'after'
+                let pos = this.drag.targetPos
+                console.log(pos)
                 res.push(pos)
             }
 

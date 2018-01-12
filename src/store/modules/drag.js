@@ -52,16 +52,16 @@ const mutations = {
     // state.targetId.push(id)
 
     //　如果自己是拖拽的元素的子元素，则不用检查
-    function isChild(id) {
-      let reg = new RegExp('\^' + state.targetId)
-      return reg.test(id)
+    function isParent(id) {
+      let reg = new RegExp('\^' + id)
+      return reg.test(state.targetId)
     }
-
     if(!state.targetId || 
-      isChild(id)
+      !isParent(id) || id===state.targetId
     ){
       state.targetId = id
       state.targetPos = isTop ? 'before' : 'after'
+      console.log(state.targetPos)
     }
 
   },
