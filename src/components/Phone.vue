@@ -21,12 +21,12 @@ export default {
       let style = getComputedStyle($body)
       let tmp = style['top']
       let max = 0
-      let min = parseInt(style.height)
+      let min = 667-parseInt(style.height)-30
       tmp = tmp === 'auto' ? '0px' : tmp
       let lastT = parseInt(tmp)
       let t = lastT + ev.wheelDelta
       if(t>0)t=0;
-      if(t<min)t=min + 'px'
+      if(t<min)t=min
       $body.style.top = t + 'px'
     },
   },
