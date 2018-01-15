@@ -1,5 +1,5 @@
 <template>
-<div class="v-component-wrapper" :data-id="config.id" :data-type="config.type" :class="className" @mouseover.stop="mouseover"  @mouseout.stop="mouseout" v-drag="config">
+<div class="v-component-wrapper" :data-id="config.id" :data-type="config.type" :class="className" @mouseover.stop="mouseover"  @mouseout.stop="mouseout" @click.stop="handleClick" v-drag="config">
     <component class="v-component" :class="className2" v-bind="config" :is="widgets[config.type]" v-if="config.type==='container'">
         <slot></slot>
     </component>
@@ -74,6 +74,12 @@ export default {
             dragConfig: state => state.config,
             drag: state => state,
         }),
+        ...mapState('curComponent', {
+            selectedId: state => state.id,
+        }),
+        isSelected(){
+            return this.selectedId===this.config.id
+        },
         isDropTarget(){
             // 还没有dom　或　没开始拖
             if(!this.isDragging || !this.$el || this.drag.targetPos==='inner')return false;
@@ -102,6 +108,7 @@ export default {
         className(){
             let res = []
             if(this.isHover)res.push('hover')
+            if(this.isSelected)res.push('selected')
             if(this.config.block==='inline-block')res.push('inline-block')
 
             if(this.isDropTarget && this.drag.targetId===this.config.id){
@@ -134,11 +141,17 @@ export default {
     },
     methods: {
         ...mapActions('drag', ['updateTargetId']),
+        ...mapActions('curComponent', ['updateCurComponent']),
         mouseover(ev){
             this.isHover = true
         },
         mouseout(ev){
             this.isHover = false
+        },
+        handleClick(){
+            this.updateCurComponent({
+                id: this.config.id
+            })
         },
     },
     // mounted(){
@@ -196,8 +209,18 @@ $color-tips: #33ada9;
         display: none;
     }
     &.hover{
-        outline:1px dashed $color-tips;
-        z-index: 3;
+        &::after{
+            box-sizing: border-box;
+            content: '';
+            pointer-events: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            border:1px dotted $color-tips;
+            z-index: 2;
+        }
         > .tips{
             display: block;
             position: absolute;
@@ -206,6 +229,18 @@ $color-tips: #33ada9;
             transform: translateY(-100%);
             color: $color-tips;
         }
+    }
+    &.selected::after{
+        box-sizing: border-box;
+        content: '';
+        pointer-events: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border:2px solid $color-tips;
+        z-index: 2;
     }
     
 }

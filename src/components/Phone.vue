@@ -18,11 +18,15 @@ export default {
   methods:{
     mousewheel(ev){
       let $body = this.$refs.body
-      let tmp = getComputedStyle($body)['top']
+      let style = getComputedStyle($body)
+      let tmp = style['top']
+      let max = 0
+      let min = parseInt(style.height)
       tmp = tmp === 'auto' ? '0px' : tmp
       let lastT = parseInt(tmp)
       let t = lastT + ev.wheelDelta
       if(t>0)t=0;
+      if(t<min)t=min + 'px'
       $body.style.top = t + 'px'
     },
   },
@@ -51,7 +55,7 @@ export default {
   .body{
     position: relative;
     min-height: 100%;
-    height: 20000px;
+    // height: 20000px;
     background-color: #fff;
     top: 0;
     border-top: 30px solid #353642;

@@ -14,6 +14,9 @@ export default {
 		            let { clientX: x, clientY: y } = ev
 		            let disX = x- el.last.x
 		            let disY = y - el.last.y
+		            if(!el.hasMove){
+		            	el.hasMove = true
+		            }
 
 		            let tmp = el.getBoundingClientRect();
 					window.$app.$store.dispatch('drag/updatePoint', {
@@ -32,7 +35,10 @@ export default {
 		            el.style.transform = `translate3d(${disX}px, ${disY}px,0)`
 		        }
 		        el.mouseup = function(ev){
-	        		window.$app.$store.dispatch('drag/updateSort', true)
+		        	if(el.hasMove){
+		        		window.$app.$store.dispatch('drag/updateSort', true)
+		        	}
+		        	el.hasMove = false
 		            el.style.transform = `none`
 	        		el.removeAttribute('data-draging')
 		            document.removeEventListener('mousemove', el.mousemove, false)

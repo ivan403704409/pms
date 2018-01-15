@@ -1,5 +1,6 @@
 <template>
-<div class="m-page f-flex-box">
+<div class="m-page">
+    <tool-bar @click.native="addComponent"></tool-bar>
     <phone>
         <unit :config="item" v-for="(item, index) in pageData" ></unit>
     </phone>
@@ -11,6 +12,28 @@
 import widgets from '@/widgets'
 import Phone from '@/components/Phone.vue'
 import unit from './unit.vue'
+import toolBar from './toolBar.vue'
+
+const componentData = {
+    container: {
+        type: 'container',
+        children: [
+            []
+        ]
+    },
+    button: {
+        type: 'vButton',
+        block: 'inline-block',
+        data: {
+            value: 'Button',
+            styles: {
+                'font-size': '12px',
+                'text-align': 'center',
+            },
+        }
+    },
+}
+
 
 var button = {
     type: 'vButton',
@@ -166,6 +189,7 @@ import { mapState, mapActions } from 'vuex'
 export default {
     name: 'workspace',
     components: {
+        toolBar,
         Phone,
         unit,
     },
@@ -234,7 +258,8 @@ export default {
     methods: {
         ...mapActions('drag', ['updateSort']),
         addComponent() {
-            this.cps.push({})
+            this.pageData.push(deepClone(componentData.container))
+            this.pageData = generateId(this.pageData)
         },
     },
 }
