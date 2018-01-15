@@ -1,7 +1,7 @@
 <template>
 <div class="m-page f-flex-box">
     <phone>
-        <interator :config="item" v-for="(item, index) in pageData" ></interator>
+        <unit :config="item" v-for="(item, index) in pageData" ></unit>
     </phone>
 </div>
 
@@ -10,7 +10,7 @@
 <script>
 import widgets from '@/widgets'
 import Phone from '@/components/Phone.vue'
-import interator from './interator.vue'
+import unit from './unit.vue'
 
 var button = {
     type: 'vButton',
@@ -61,6 +61,12 @@ function deepClone(data) {
 let pageData = [
     container2,
     button,
+    {
+    type: 'container',
+        children: [
+            []
+        ]
+    }
 ]
 
 
@@ -128,6 +134,11 @@ function getParent(id, data) {
 function change(dragId, dropId, data, targetPos) {
     let { parent, index } = getParent(dragId, data)
     let { parent: parent2, index: index2 } = getParent(dropId, data)
+    if(targetPos==='inner'){
+        let dragTarget = parent.splice(index, 1)[0]
+        parent2[index2].push(dragTarget)
+        return
+    }
 
     if(targetPos==='before'){
         // 位置是原来的位置
@@ -156,7 +167,7 @@ export default {
     name: 'workspace',
     components: {
         Phone,
-        interator,
+        unit,
     },
     data() {
         return {

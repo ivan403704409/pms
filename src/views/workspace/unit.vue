@@ -1,6 +1,9 @@
 <template>
 <div class="v-component-wrapper" :data-id="config.id" :data-type="config.type" :class="className" @mouseover.stop="mouseover"  @mouseout.stop="mouseout" v-drag="config">
-    <component class="v-component" :class="className2" v-bind="config.data" :is="widgets[config.type]" >
+    <component class="v-component" :class="className2" v-bind="config" :is="widgets[config.type]" v-if="config.type==='container'">
+        <slot></slot>
+    </component>
+    <component class="v-component" :class="className2" v-bind="config.data" :is="widgets[config.type]" v-else>
         <slot></slot>
     </component>
     <div class="tips">{{config.type}}</div>
@@ -73,7 +76,7 @@ export default {
         }),
         isDropTarget(){
             // 还没有dom　或　没开始拖
-            if(!this.isDragging || !this.$el)return false;
+            if(!this.isDragging || !this.$el || this.drag.targetPos==='inner')return false;
 
             let selfId = this.config.id
             let dragId = this.dragConfig.id
@@ -101,16 +104,7 @@ export default {
             if(this.isHover)res.push('hover')
             if(this.config.block==='inline-block')res.push('inline-block')
 
-            // if(this.isDropTarget){
-            //     res.push('isDropTarget')
-            //     let pos = this.isDropTarget.isTop ? 'before' : 'after'
-            //     res.push(pos)
-            // }
-            if(this.dragConfig){
-                console.log(this.drag.targetId, this.config.id)
-            }
             if(this.isDropTarget && this.drag.targetId===this.config.id){
-            // if(this.isDropTarget){
                 res.push('isDropTarget')
                 let pos = this.drag.targetPos
                 console.log(pos)
@@ -129,7 +123,7 @@ export default {
     watch:{
         isDropTarget(newVal){
             if(newVal){
-                this.updateTargetId({id: this.config.id, isTop: newVal.isTop })
+                this.updateTargetId({id: this.config.id, targetPos: newVal.isTop ? 'before'　: 'after' })
             }else{
                 this.updateTargetId({id: this.config.id, remove: true})
             }

@@ -7,6 +7,7 @@ const state = {
     dragId: null,
     targetId: null,
     targetPos: '',
+    lock: false,
     isChange: false,
 }
 
@@ -42,7 +43,7 @@ const mutations = {
     }
   },
 
-  updateTargetId(state, {id, remove, isTop}){
+  updateTargetId(state, {id, targetPos, remove}){
     // let exit = state.targetId.includes(id)
     // if( remove && exit ){
     //   state.targetId.splice( state.targetId.indexOf(id), 1)
@@ -50,6 +51,25 @@ const mutations = {
     // }
     // if(exit)return
     // state.targetId.push(id)
+    console.log(targetPos, remove)
+    if(remove && targetPos==='inner'){
+      state.lock = false
+      state.targetId = ''
+      state.targetPos = ''
+      return
+    }
+
+    // 插入到空白处
+    if(targetPos==='inner'){
+      state.targetId = id
+      state.targetPos = 'inner'
+      state.lock = true
+      return;
+    }
+
+    if(state.lock){
+      return
+    }
 
     //　如果自己是拖拽的元素的子元素，则不用检查
     function isParent(id) {
@@ -60,13 +80,18 @@ const mutations = {
       !isParent(id) || id===state.targetId
     ){
       state.targetId = id
-      state.targetPos = isTop ? 'before' : 'after'
-      console.log(state.targetPos)
+      state.targetPos = targetPos
+      state.lock = false
     }
 
   },
   updateSort(state, isChange){
     state.isChange = !!isChange
+    if(!isChange){
+      state.targetId = ''
+      state.targetPos = ''
+      state.lock = false
+    }
   },
 
 }
